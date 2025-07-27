@@ -1,26 +1,39 @@
 package main;
 
-import drinkvendingmachine.DrinkVendingMachine;
-import machine.Machine;
-import snackvendingmashine.SnackVendingMachine;
+import category.DrinkCategory;
+import category.SnackCategory;
+import machine.VendingMachine;
+import payment.CashPayment;
+import payment.IcPayment;
+import product.Product;
 
 public class Main {
-
-    public static void operateMachine(Machine machine, int money) {
-        machine.showProductInfo();
-        machine.insertMoney(money);
-        machine.purchase();
-        machine.showStatus();
-        System.out.println("------");
-    }
-
     public static void main(String[] args) {
-        Machine drink = new DrinkVendingMachine();
-        Machine snack = new SnackVendingMachine();
+        Product tea = new Product("緑茶", 150, 1);
+        Product chips = new Product("ポテチ", 120, 0);
 
-        operateMachine(drink, 100);  //緑茶は不足→  買えない
-        operateMachine(drink, 150);  // 緑茶を購入
-        operateMachine(snack, 100);  // ポテチは不足 → 買えない
-        operateMachine(snack, 200);  // ポテチ購入
+        VendingMachine drinkVM = new VendingMachine(tea, new DrinkCategory());
+        VendingMachine snackVM = new VendingMachine(chips, new SnackCategory());
+
+        System.out.println("=== 飲料自販機 ===");
+        IcPayment ic = new IcPayment(100);
+        drinkVM.setPaymentMethod(ic);
+        drinkVM.showProductInfo();
+        drinkVM.purchase();
+        drinkVM.showStatus();
+
+        System.out.println("--- ICカード再チャージ ---");
+        ic = new IcPayment(200);
+        drinkVM.setPaymentMethod(ic);
+        drinkVM.purchase();
+        drinkVM.showStatus();
+
+        System.out.println("=== 軽食自販機 ===");
+        CashPayment cash = new CashPayment();
+        cash.insert(200);
+        snackVM.setPaymentMethod(cash);
+        snackVM.showProductInfo();
+        snackVM.purchase();
+        snackVM.showStatus();
     }
 }
