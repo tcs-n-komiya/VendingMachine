@@ -7,7 +7,19 @@ import payment.CashPayment;
 import payment.IcPayment;
 import product.Product;
 
+/**
+ * 自販機システムの動作検証
+ * @see VendingMachine
+ * @see Product
+ * @see IcPayment
+ * @see CashPayment
+ */
 public class Main {
+    /**
+     * アプリケーションのメインエントリーポイント
+     *
+     * @param args コマンドライン引数（未使用）
+     */
     public static void main(String[] args) {
         Product tea = new Product("緑茶", 150, 1);
         Product chips = new Product("ポテチ", 120, 0);
